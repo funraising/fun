@@ -1,0 +1,28 @@
+{
+  "name": "fun-contracts",
+  "license": "MIT",
+  "scripts": {
+    "test": "npm run lint && hardhat test",
+    "start": "hardhat node --export deployment-localhost.json",
+    "compile": "hardhat compile",
+    "format": "prettier --write contracts/**/*.sol test/**/*.js",
+    "format:check": "prettier --check contracts/**/*.sol test/**/*.js",
+    "lint": "solhint contracts/**.sol",
+    "deploy": "hardhat deploy"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.1",
+    "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@openzeppelin/contracts": "^4.8.0",
+    "@stdlib/stats-binomial-test": "^0.0.7",
+    "chai": "^4.3.7",
+    "ethereum-waffle": "^3.4.4",
+    "ethers": "^5.7.2",
+    "hardhat": "^2.17.1",
+    "hardhat-deploy": "^0.11.34",
+    "hardhat-deploy-ethers": "^0.3.0-beta.13",
+    "prettier": "^2.8.2",
+    "prettier-plugin-solidity": "^1.1.1",
+    "solhint": "^3.3.7"
+  }
+}
