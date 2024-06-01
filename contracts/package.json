@@ -1,6 +1,9 @@
 {
   "name": "fun-contracts",
   "license": "MIT",
+  "engines": {
+    "node": "20"
+  },
   "scripts": {
     "test": "npm run lint && hardhat test",
     "start": "hardhat node --export deployment-localhost.json",
