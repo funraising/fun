@@ -43,10 +43,8 @@ contract FunToken is ERC20, Ownable {
         return true;
     }
 
-    function burn(uint256 amount) public returns (bool) {
-        _burn(_msgSender(), amount);
-
-        return true;
+    function burnFrom(address account, uint256 amount) public {
+        _burn(account, amount);
     }
 
     function lock() public onlyOwner {

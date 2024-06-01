@@ -22,7 +22,7 @@ contract FunFactory {
         uint256 endsAt,
         uint256 maxSupply,
         uint256 raisinTarget
-    ) public returns (FunFun) {
+    ) public returns (address) {
         FunFun fun = makeFun(
             raisinToken,
             endsAt,
@@ -30,8 +30,8 @@ contract FunFactory {
             raisinTarget
             );
         FunToken funToken = deployFunToken(name, symbol, imageURI, maxSupply, fun);
-
         fun.setFunToken(funToken);
+        return address(funToken);
     }
 
     function deployFunToken(
@@ -64,8 +64,6 @@ contract FunFactory {
 
         return fun;
     }
-    // TODO: Last transaction setup Uniswap liquid pool
-
 
     function getFunByMan(address funder) public view returns (FunFun[] memory) {
         return _funByMan[funder];

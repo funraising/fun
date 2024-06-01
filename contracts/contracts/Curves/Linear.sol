@@ -1,12 +1,12 @@
 contract LinearCurve {
-    uint256 private _steepnes;
+    uint256 private _steepness;
 
-    constructor(uint256 steepnes){
-    _steepnes = steepnes;
+    constructor(uint256 steepness){
+    _steepness = steepness;
     }
 
-    function priceForSupply(uint256 currentSupply) public pure {
-        return currentSupply * _steepnes;
+    function priceForSupply(uint256 currentSupply) public view returns(uint256) {
+        return currentSupply * _steepness;
     }
 
 }
