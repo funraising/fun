@@ -4,6 +4,11 @@
     import { Rocket } from 'carbon-icons-svelte'
 </script>
 
+<div class="spacer"></div>
+<div class="spacer"></div>
+<div class="spacer"></div>
+<div class="spacer"></div>
+
 <img src="/FUNraising_transparent.png" alt="logo"/>
 <Typography variant="h4">Welcome to Funraising!</Typography>
 <Typography variant="large">Create your token. Raise funds. Have fun.</Typography>
@@ -11,9 +16,12 @@
 
 <style>
     img {
-        width: 192px;
-        height: 192px;
+        width: 384px;
+        height: 384px;
         margin-bottom: 24px;
+    }
+    .spacer {
+        margin-bottom: var(--padding);
     }
     :global(.margin-top) {
         margin-top: 24px;

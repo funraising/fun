@@ -6,6 +6,8 @@
 	import ResponsiveContainer from "$lib/components/responsive-container.svelte"
     import Select from '$lib/components/ui/select/select.svelte'
 	import Option from "$lib/components/ui/select/option.svelte"
+    import Chart from "$lib/components/ui/chart.svelte"
+    import { polynomial } from "$lib/utils/bonding-curve"
 
     let step = $state(3)
     let name = $state('')
@@ -17,6 +19,33 @@
     let bondingCurve = $state('linear')
     let durationDays = $state(30)
     let initialAmount = $state(0)
+
+    let degree = $derived(bondingCurve === 'linear' ? 2 : 3)
+    let labels = $derived([...Array(11).keys()].map(value => value * goalAmount / 10))
+
+    let series = $derived([
+            {
+                fill: true,
+                lineTension: 0.3,
+                backgroundColor: 'rgba(225, 204,230, .3)',
+                borderColor: 'rgb(205, 130, 158)',
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: 'rgb(205, 130,1 58)',
+                pointBackgroundColor: 'rgb(255, 255, 255)',
+                pointBorderWidth: 10,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: 'rgb(0, 0, 0)',
+                pointHoverBorderColor: 'rgba(220, 220, 220,1)',
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                data: labels.map(value => polynomial(value, goalAmount, maxSupply, degree))
+            }
+        ]
+    )
 
 </script>
 
@@ -78,6 +107,12 @@
         <Option value="exponential">Exponential</Option>
     </Select>
     <div class="spacer"></div>
+
+    <Chart
+        {labels}
+        {series}
+    />
+
     <hr/>
     <Input label="Fundraising duration" placeholder="30" bind:value={durationDays} unit="Days" controls>Set at time limit to reach your goal</Input>
     <div class="spacer"></div>
@@ -116,6 +151,7 @@
             <Typography>{symbol}</Typography>
         </div>
     </ResponsiveContainer>
+    <div class="spacer"></div>
     <ResponsiveContainer>
             <div class="vertical">
             <Typography variant="small">Token image</Typography>
@@ -126,7 +162,9 @@
             <Typography>{link}</Typography>
         </div>
     </ResponsiveContainer>
+
     <hr/>
+
     <ResponsiveContainer>
         <div class="vertical">
             <Typography variant="small">Fundraising goal</Typography>
@@ -203,7 +241,7 @@ form {
     display: flex;
     flex-direction: column;
     gap: var(--padding);
-    max-width: 33%;
+    justify-content: flex-start;
 }
 .buttons {
     justify-content: stretch;
