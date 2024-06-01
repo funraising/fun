@@ -71,10 +71,11 @@ describe("FunFun", function () {
 
     it('should purchase fun', async () => {
       await token.approve(funFun.address, 100_000)
+      const startingToken = await token.balanceOf(investor.address)
       expect(await funToken.balanceOf(investor.address)).to.equal(0)
       await funFun.buyFun(100_000)
-      expect(await funToken.balanceOf(investor.address)).to.greaterThan(0)
-
+      expect(await funToken.balanceOf(investor.address)).to.be.eq(100_000)
+      expect(startingToken - await token.balanceOf(investor.address)).to.be.greaterThan(0)
     });
   })
 })
