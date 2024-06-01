@@ -5,7 +5,7 @@ contract LinearCurve {
     _steepnes = steepnes;
     }
 
-    function currentPrice(uint256 currentSupply) public pure {
+    function priceForSupply(uint256 currentSupply) public pure {
         return currentSupply * _steepnes;
     }
 
