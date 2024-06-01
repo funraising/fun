@@ -13,7 +13,7 @@ Fun Contracts
 ┌───────┴──────┐                                           ┌───────────┐                         
 │              │                                           │           │ Upon succesfull campaing
 │  FunFactory  │                                           │  Uniswap  │ all the funds are moved 
-│              │                                           │           │ to the poolx            
+│              │                                           │           │ to the pool            
 └───────┬──────┘                                           └───────────┘                         
         │                                                        ▲                               
         │                   ┌────────────────┐                   │                               
