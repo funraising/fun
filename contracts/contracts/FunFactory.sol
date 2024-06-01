@@ -43,7 +43,7 @@ contract FunFactory {
     ) private returns (FunToken) {
         FunToken funToken = new FunToken(name, symbol, imageURI, maxSupply, campaign);
         require(address(funToken) != address(0), "Failed to deploy FunToken");
-        
+
         return funToken;
     }
 
