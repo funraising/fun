@@ -1,0 +1,72 @@
+:root {
+
+	--colors-top: #fefdfe;
+	--colors-ultra-high: #f2eaf7;
+	--colors-high: #c8a6dc;
+	--colors-low: #562d70;
+	--colors-ultra-low: #361c45;
+	--colors-base: #23122d;
+
+	--colors-dark-top: #fefdfe;
+	--colors-dark-ultra-high: #f2eaf7;
+	--colors-dark-high: #c8a6dc;
+	--colors-dark-low: #562d70;
+	--colors-dark-ultra-low: #361c45;
+	--colors-dark-base: #23122d;
+
+	--colors-light-top: #23122d;
+	--colors-light-ultra-high: #361c45;
+	--colors-light-high: #562d70;
+	--colors-light-low: #c8a6dc;
+	--colors-light-ultra-low: #f2eaf7;
+	--colors-light-base: #fefdfe;
+
+	--colors-dark-overlay: #23122db3;
+	--colors-light-overlay: #fefdfeb3;
+
+	--font-family-sans-serif: sans-serif;
+	--font-family-serif: serif;
+	--font-family-monospace: monospace;
+
+	--font-size-large: 1.5rem;
+	--font-size: 1rem;
+	--font-size-small: 0.75rem;
+
+	--line-height-large: 2rem;
+	--line-height: 1.5rem;
+	--line-height-small: 1rem;
+
+	--letter-spacing-large: 0.03rem;
+	--letter-spacing: 0.02rem;
+	--letter-spacing-small: 0.0375rem;
+
+	--font-size-h1: 3rem;
+	--font-size-h2: 2.5rem;
+	--font-size-h3: 2rem;
+	--font-size-h4: 1.5rem;
+	--font-size-h5: 1rem;
+	--font-size-h6: 0.75rem;
+
+	--font-weight-h1: 700;
+	--font-weight-h2: 700;
+	--font-weight-h3: 700;
+	--font-weight-h4: 700;
+	--font-weight-h5: 700;
+	--font-weight-h6: 700;
+
+	--line-height-h1: 3.5rem;
+	--line-height-h2: 3rem;
+	--line-height-h3: 2.5rem;
+	--line-height-h4: 2rem;
+	--line-height-h5: 1.5rem;
+	--line-height-h6: 1rem;
+
+	--letter-spacing-h4: 0.03rem;
+	--letter-spacing-h5: 0.02rem;
+	--letter-spacing-h6: 0.0375rem;
+
+	--padding: var(--font-size);
+	--double-padding: calc(2 * var(--padding));
+	--half-padding: calc(var(--padding) / 2);
+	--border-radius: 0.25rem;
+}
