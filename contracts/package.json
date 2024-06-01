@@ -11,7 +11,7 @@
     "format": "prettier --write contracts/**/*.sol test/**/*.js",
     "format:check": "prettier --check contracts/**/*.sol test/**/*.js",
     "lint": "solhint contracts/**.sol",
-    "deploy": "hardhat deploy"
+    "deploy:sepolia": "hardhat deploy --network sepolia"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.2.1",

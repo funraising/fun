@@ -25,5 +25,10 @@ module.exports = {
     hardhat: {
       tags: ["local"],
     },
+    sepolia: {
+      url: process.env.RPC_URL || "http://localhost:8545",
+      accounts: [process.env.PRIV_KEY || "0x"],
+      tags: ["sepolia"],
+    }
   },
 }

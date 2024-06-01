@@ -4,3 +4,4 @@ artifacts
 deployment-localhost.json
 crytic-export
 deployments/localhost
+.secret
