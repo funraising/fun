@@ -1,16 +1,16 @@
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./FunToken.sol";
-import "./Curves/Linear.sol";
+import "./Curves/Polynomial.sol";
 
 // The representation of the campaign as a bonding curve-based token
-contract FunFun is LinearCurve, Ownable {
+contract FunFun is PolynomialCurve, Ownable {
     FunToken public funToken;
     IERC20 private immutable _raiseToken;
     uint256 public immutable maxSupply;
     uint256 public immutable endsAt;
     uint256 public immutable raiseTarget;
-    mapping (address => uint256) private ledger;
+    mapping(address => uint256) private ledger;
 
     /// @param raiseToken_ Token of the fundraising
     /// @param endsAt_ Timestamp at which the fundraiser ends
@@ -21,7 +21,7 @@ contract FunFun is LinearCurve, Ownable {
         uint256 endsAt_,
         uint256 maxSupply_,
         uint256 raiseTarget_
-    ) LinearCurve(raiseTarget / maxSupply) {
+    ) PolynomialCurve(raiseTarget / (maxSupply^3/3)) {
         _raiseToken = raiseToken_;
         maxSupply = maxSupply_;
         maxSupply = raiseTarget_;
@@ -30,7 +30,7 @@ contract FunFun is LinearCurve, Ownable {
 
     /// Investors buy the fundraiser's FunToken
     function buyFun(uint256 amount) public {
-        require((address(funToken) == address(0)), "FunToken not set");
+        require(address(funToken) != address(0), "FunToken not set");
         require(amount != 0, "Require non-zero amount");
 
         uint256 raiseTokenAmount = priceForSupply(funToken.totalSupply() + amount) - priceForSupply(funToken.totalSupply());
@@ -67,4 +67,8 @@ contract FunFun is LinearCurve, Ownable {
         renounceOwnership();
     }
 
+    /// @return How much the sender already contributed to the campaign
+    function paidAmount() public view returns (uint256){
+        return ledger[msg.sender];
+    }
 }

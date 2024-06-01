@@ -31,7 +31,7 @@ contract FunFactory {
             );
         FunToken funToken = deployFunToken(name, symbol, imageURI, maxSupply, fun);
         fun.setFunToken(funToken);
-        return address(funToken);
+        return address(fun);
     }
 
     function deployFunToken(
