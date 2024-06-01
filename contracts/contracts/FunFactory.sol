@@ -5,31 +5,69 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./FunFun.sol";
 
 contract FunFactory {
-    mapping(address => FunFun[]) private _funByFunder;
+    IERC20 private _raisinToken;
+    mapping(address => FunFun[]) private _funByMan;
 
-    function makeFun(
+    constructor (
+        IERC20 raisinToken
+    ) {
+        _raisinToken = raisinToken;
+    }
+
+    function createFun(
+        string memory name,
+        string memory symbol,
+        string memory imageURI,
+        IERC20 raisinToken,
+        uint256 endsAt,
+        uint256 maxSupply,
+        uint256 raisinTarget
     ) public returns (FunFun) {
-        FunFun fun = FunFun(address(0)); // TODO: Deploy FunFun and save the address
-        _funByFunder[msg.sender].push(fun);
+        FunFun fun = makeFun(
+            raisinToken,
+            endsAt,
+            maxSupply,
+            raisinTarget
+            );
+        FunToken funToken = deployFunToken(name, symbol, imageURI, maxSupply, fun);
 
-        return fun;
+        fun.setFunToken(funToken);
+    }
+
+    function deployFunToken(
+        string memory name,
+        string memory symbol,
+        string memory imageURI,
+        uint256 maxSupply,
+        FunFun campaign
+    ) private returns (FunToken) {
+        FunToken funToken = new FunToken(name, symbol, imageURI, maxSupply, campaign);
+        require(address(funToken) != address(0), "Failed to deploy FunToken");
+        
+        return funToken;
     }
 
     function makeFun(
-        uint256 amount
-    ) public returns (address) {
-        address fun = address(0); // TODO: Deploy FunFun and save the address
-        funByFunder[msg.sender].push(fun);
+        IERC20 raisinToken,
+        uint256 endsAt,
+        uint256 maxSupply,
+        uint256 raisinTarget
+    ) private returns (FunFun) {
+        FunFun fun = new FunFun(
+            raisinToken,
+            endsAt,
+            maxSupply,
+            raisinTarget
+        );
+        require(address(fun) != address(0), "Failed to deploy FunFun");
+        _funByMan[msg.sender].push(fun);
 
         return fun;
     }
-
-    // TODO: Deploys bonding contract
-    // TODO: Deploys FunToken with the parameters
     // TODO: Last transaction setup Uniswap liquid pool
 
 
-    function getFunByFunder(address funder) public view returns (FunFun[] memory) {
-        return _funByFunder[funder];
+    function getFunByMan(address funder) public view returns (FunFun[] memory) {
+        return _funByMan[funder];
     }
 }
