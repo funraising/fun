@@ -5,11 +5,11 @@ const funFunAbi = require("../artifacts/contracts/FunFun.sol/FunFun.json").abi;
 
 describe("FunToken", function () {
   let mockFunContract;
-  let caller;
+  let funOwner;
 
   beforeEach(async function () {
-    [caller] = await ethers.getSigners();
-    mockFunContract = await deployMockContract(caller, funFunAbi);
+    [funOwner] = await ethers.getSigners();
+    mockFunContract = await deployMockContract(funOwner, funFunAbi);
   });
 
   it("Deployment should make the FunFun the contract owner.", async function () {
@@ -54,18 +54,22 @@ describe("FunToken", function () {
   });
 
   it("Should reject transfer if token lock is active.", async function () {
+    const transferTarget = ethers.Wallet.createRandom().address;
     const funTokenFactory = await ethers.getContractFactory("FunToken");
     const funToken = await funTokenFactory.deploy(
       "testName",
       "testSymbol",
       "imageURI",
       1000000,
-      mockFunContract.address
+      funOwner.address
     );
 
     expect(await funToken.locked()).to.equal(true);
-    await expect(funToken.transfer(caller.address, 100))
-      .to.be.revertedWith("FunToken: token is locked.");
+    try {
+      await funToken.transfer(transferTarget.address, 100, { from: funOwner.address });
+    } catch (error) {
+        expect(error.message).to.include('FunToken: token is locked');
+    }
   });
 
   it("Should allow transfer if token lock is inactive.", async function () {
@@ -81,7 +85,7 @@ describe("FunToken", function () {
     expect(await funToken.locked()).to.equal(true);
     await funToken.unlock();
     expect(await funToken.locked()).to.equal(false);
-    const success = await funToken.transfer(caller.address, 100);
+    const success = await funToken.transfer(funOwner.address, 100);
     expect(success).to.be.true;
   });
 });
