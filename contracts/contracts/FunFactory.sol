@@ -22,7 +22,7 @@ contract FunFactory {
         uint256 endsAt,
         uint256 maxSupply,
         uint256 raisinTarget
-    ) public returns (address) {
+    ) public returns (FunFun) {
         FunFun fun = makeFun(
             raisinToken,
             endsAt,
@@ -30,8 +30,10 @@ contract FunFactory {
             raisinTarget
             );
         FunToken funToken = deployFunToken(name, symbol, imageURI, maxSupply, fun);
+
         fun.setFunToken(funToken);
-        return address(fun);
+
+        return fun;
     }
 
     function deployFunToken(
@@ -43,7 +45,7 @@ contract FunFactory {
     ) private returns (FunToken) {
         FunToken funToken = new FunToken(name, symbol, imageURI, maxSupply, campaign);
         require(address(funToken) != address(0), "Failed to deploy FunToken");
-
+        
         return funToken;
     }
 
