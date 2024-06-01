@@ -10,7 +10,16 @@ contract FunFactory {
     function makeFun(
     ) public returns (FunFun) {
         FunFun fun = FunFun(address(0)); // TODO: Deploy FunFun and save the address
-        _funByFunder[msg.sender].push(fun); 
+        _funByFunder[msg.sender].push(fun);
+
+        return fun;
+    }
+
+    function makeFun(
+        uint256 amount
+    ) public returns (address) {
+        address fun = address(0); // TODO: Deploy FunFun and save the address
+        funByFunder[msg.sender].push(fun);
 
         return fun;
     }
