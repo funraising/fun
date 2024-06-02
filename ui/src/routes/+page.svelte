@@ -12,7 +12,7 @@
 <img src="/FUNraising_transparent.png" alt="logo"/>
 <Typography variant="h4">Welcome to Funraising!</Typography>
 <Typography variant="large">Create your token. Raise funds. Have fun.</Typography>
-<Button class="margin-top" variant="strong" href="/create"><Rocket/>Get started</Button>
+<Button class="margin-top" variant="strong" href="/create/1"><Rocket/>Get started</Button>
 
 <style>
     img {

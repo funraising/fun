@@ -5,8 +5,6 @@
     import { FunFun__factory, type FunFun, FunToken__factory, type FunToken } from '$lib/typechain'
 	import { onMount } from 'svelte'
 
-    const provider = new ethers.JsonRpcProvider()
-
     // eslint-disable-next-line svelte/valid-compile
     const address = $page.params.address
     let state: any = $state(undefined)
@@ -15,6 +13,7 @@
 
     async function token() {
         const funContract = new ethers.Contract(address, FunFun__factory.abi) as unknown as FunFun;
+        console.debug({ funContract })
         const maxSupply = await funContract.maxSupply()
         const raiseTarget = await funContract.raiseTarget()
         const endsAt = await funContract.endsAt()
