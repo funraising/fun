@@ -12,7 +12,7 @@
     import { FunFactory__factory, type FunFactory } from '$lib/typechain'
     import { goto } from '$app/navigation';
 
-    let step = $state(4)
+    let step = $state(1)
     let name = $state('FUN')
     let symbol = $state('Funraising')
     let image = $state('')
