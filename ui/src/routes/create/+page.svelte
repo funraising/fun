@@ -2,14 +2,15 @@
 	import Typography from "$lib/components/ui/typography.svelte"
     import Input from '$lib/components/ui/input.svelte'
 	import Button from "$lib/components/ui/button.svelte"
-    import { Image, Close, ArrowRight, ArrowLeft, Edit, Wallet } from 'carbon-icons-svelte'
+    import { Image, Close, ArrowRight, ArrowLeft, Edit, Wallet, Checkmark } from 'carbon-icons-svelte'
 	import ResponsiveContainer from "$lib/components/responsive-container.svelte"
     import Select from '$lib/components/ui/select/select.svelte'
 	import Option from "$lib/components/ui/select/option.svelte"
     import Chart from "$lib/components/ui/chart.svelte"
     import { polynomial } from "$lib/utils/bonding-curve"
+    import { ethers } from 'ethers'
 
-    let step = $state(3)
+    let step = $state(4)
     let name = $state('')
     let symbol = $state('')
     let image = $state('')
@@ -47,6 +48,15 @@
         ]
     )
 
+    async function connectWallet() {
+        const provider = new ethers.BrowserProvider((window as any).ethereum)
+        const signer = await provider.getSigner()
+        step = 4
+    }
+
+    async function makeTransaction() {
+        // TODO
+    }
 </script>
 
 {#if step === 1}
@@ -194,10 +204,10 @@
         <div class="grower">
             <Typography>Please connect a web3 wallet to proceed.</Typography>
         </div>
-        <Button variant="strong" onclick={() => step = 3}><Wallet/>Connect wallet</Button>
+        <Button variant="strong" onclick={() => connectWallet()}><Wallet/>Connect wallet</Button>
     </div>
 
-    <pre>{JSON.stringify({
+    <!-- <pre>{JSON.stringify({
         step,
         name,
         symbol,
@@ -208,12 +218,37 @@
         bondingCurve,
         duration: durationDays,
         initialAmount,
-    }, undefined, 4)}</pre>
+    }, undefined, 4)}</pre> -->
 
     <div class="spacer"></div>
     <div class="spacer"></div>
     <div class="spacer"></div>
     <div class="spacer"></div>
+
+</form>
+{:else if step === 4}
+<form>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+
+    <Typography variant="h5">Create token</Typography>
+    <Typography>Creating token and buying initial funding amount.</Typography>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+    <ResponsiveContainer>
+        <div class="vertical">
+            <Typography variant="small">Buying</Typography>
+            <Typography>{initialAmount} {name}</Typography>
+        </div>
+    </ResponsiveContainer>
+    <hr/>
+    <div class="horizontal buttons">
+        <div class="grower"></div>
+        <Button variant="secondary" onclick={() => step = 3}><Close/>Cancel</Button>
+        <Button variant="strong" onclick={() => makeTransaction()}><Checkmark/>Confirm transaction</Button>
+    </div>
 
 </form>
 {/if}
