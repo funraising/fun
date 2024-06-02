@@ -27,53 +27,49 @@ module.exports = async ({ deployments, getNamedAccounts, getUnnamedAccounts, net
   
   // Deploy the UniswapV3Liquidity contract
   const UniswapV3Liquidity = await ethers.getContractFactory("UniswapV3Liquidity");
-  const uniswapV3Liquidity = await UniswapV3Liquidity.deploy(tokenA.address, tokenB.address);
+  const uniswapV3Liquidity = await UniswapV3Liquidity.deploy(tokenA.address, tokenB.address, 3000);
   await uniswapV3Liquidity.deployed();
   
   console.log("UniswapV3Liquidity deployed to:", uniswapV3Liquidity.address);
 
   // Approve UniswapV3Liquidity contract to spend DAI and WETH
-  await tokenA.approve(uniswapV3Liquidity.address, TRANSFER_AMOUNT, { from: deployer });
-  await tokenB.approve(uniswapV3Liquidity.address, TRANSFER_AMOUNT, { from: deployer });
+  // await tokenA.approve(uniswapV3Liquidity.address, TRANSFER_AMOUNT, { from: deployer });
+  // await tokenB.approve(uniswapV3Liquidity.address, TRANSFER_AMOUNT, { from: deployer });
 
   await tokenA.transfer(uniswapV3Liquidity.address, TRANSFER_AMOUNT, { from: deployer });
   await tokenB.transfer(uniswapV3Liquidity.address, TRANSFER_AMOUNT, { from: deployer });
 
   console.log("Transferred tokens to UniswapV3Liquidity contract")
-
-  // Create pool
-  const poolTx = await uniswapV3Liquidity.createPool({ from: deployer, gasLimit: 300_000,});
-  console.log("Pool created:", poolTx.transactionHash);
   
   // Add liquidity
-  const tx = await uniswapV3Liquidity.mintNewPosition(AMOUNT, AMOUNT, { from: deployer, 
+  const tx = await uniswapV3Liquidity.addLiquidity(AMOUNT, AMOUNT, { from: deployer, 
     gasLimit: 300_000,
   });
   const receipt = await tx.wait();
   
   console.log("Mint new position transaction:", receipt.transactionHash);
   
-  // Collect fees
-  const tokenId = receipt.events[0].args.tokenId;
-  const feeTx = await uniswapV3Liquidity.collectAllFees(tokenId);
-  const feeReceipt = await feeTx.wait();
+  // // Collect fees
+  // const tokenId = receipt.events[0].args.tokenId;
+  // const feeTx = await uniswapV3Liquidity.collectAllFees(tokenId);
+  // const feeReceipt = await feeTx.wait();
   
-  console.log("Collect fees transaction:", feeReceipt.transactionHash);
+  // console.log("Collect fees transaction:", feeReceipt.transactionHash);
   
-  // Increase liquidity
-  const daiAmountToAdd = ethers.utils.parseUnits("5", 18);
-  const wethAmountToAdd = ethers.utils.parseUnits("0.5", 18);
+  // // Increase liquidity
+  // const daiAmountToAdd = ethers.utils.parseUnits("5", 18);
+  // const wethAmountToAdd = ethers.utils.parseUnits("0.5", 18);
   
-  const increaseTx = await uniswapV3Liquidity.increaseLiquidityCurrentRange(tokenId, daiAmountToAdd, wethAmountToAdd);
-  const increaseReceipt = await increaseTx.wait();
+  // const increaseTx = await uniswapV3Liquidity.increaseLiquidityCurrentRange(tokenId, daiAmountToAdd, wethAmountToAdd);
+  // const increaseReceipt = await increaseTx.wait();
   
-  console.log("Increase liquidity transaction:", increaseReceipt.transactionHash);
+  // console.log("Increase liquidity transaction:", increaseReceipt.transactionHash);
   
-  // Decrease liquidity
-  const decreaseTx = await uniswapV3Liquidity.decreaseLiquidityCurrentRange(tokenId, ethers.utils.parseUnits("0.5", 18));
-  const decreaseReceipt = await decreaseTx.wait();
+  // // Decrease liquidity
+  // const decreaseTx = await uniswapV3Liquidity.decreaseLiquidityCurrentRange(tokenId, ethers.utils.parseUnits("0.5", 18));
+  // const decreaseReceipt = await decreaseTx.wait();
   
-  console.log("Decrease liquidity transaction:", decreaseReceipt.transactionHash);
+  // console.log("Decrease liquidity transaction:", decreaseReceipt.transactionHash);
 }
 
-module.exports.tags = ["TokenA"]
+module.exports.tags = ["ALL"]
