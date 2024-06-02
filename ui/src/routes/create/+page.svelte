@@ -9,6 +9,7 @@
     import Chart from "$lib/components/ui/chart.svelte"
     import { polynomial } from "$lib/utils/bonding-curve"
     import { ethers } from 'ethers'
+    import { FunFactory__factory, type FunFactory } from '$lib/typechain'
 
     let step = $state(4)
     let name = $state('')
@@ -59,8 +60,11 @@
         const funFactory = '0x5B79C3970886A1F71b82A80c75BE1dD8cDb7BD96'
 
         const endsAt = Date.now() + (durationDays * 24 * 60 * 60)
-        createFun(name, symbol, image, raisinToken, endsAt, maxSupply, goalAmount)
-
+        const provider = new ethers.BrowserProvider((window as any).ethereum)
+        const signer = await provider.getSigner()
+        
+        const contract = new ethers.Contract(funFactory, FunFactory__factory.abi, signer) as unknown as FunFactory;
+        await contract.createFun(name, symbol, image, raisinToken, endsAt, maxSupply, goalAmount)
     }
 </script>
 
