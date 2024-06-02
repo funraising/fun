@@ -18,13 +18,11 @@ contract FunFactory {
         string memory name,
         string memory symbol,
         string memory imageURI,
-        IERC20 raisinToken,
         uint256 endsAt,
         uint256 maxSupply,
         uint256 raisinTarget
     ) public returns (FunFun) {
         FunFun fun = makeFun(
-            raisinToken,
             endsAt,
             maxSupply,
             raisinTarget
@@ -45,18 +43,17 @@ contract FunFactory {
     ) private returns (FunToken) {
         FunToken funToken = new FunToken(name, symbol, imageURI, maxSupply, campaign);
         require(address(funToken) != address(0), "Failed to deploy FunToken");
-        
+
         return funToken;
     }
 
     function makeFun(
-        IERC20 raisinToken,
         uint256 endsAt,
         uint256 maxSupply,
         uint256 raisinTarget
     ) private returns (FunFun) {
         FunFun fun = new FunFun(
-            raisinToken,
+            _raisinToken,
             endsAt,
             maxSupply,
             raisinTarget

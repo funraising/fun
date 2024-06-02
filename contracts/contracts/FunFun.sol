@@ -12,6 +12,8 @@ contract FunFun is PolynomialCurve, Ownable {
     uint256 public immutable raiseTarget;
     mapping(address => uint256) private ledger;
 
+    event CampaignFinished();
+
     /// @param raiseToken_ Token of the fundraising
     /// @param endsAt_ Timestamp at which the fundraiser ends
     /// @param maxSupply_ How much of Fun Token will be minted with reaching the end of the campaign
@@ -24,7 +26,7 @@ contract FunFun is PolynomialCurve, Ownable {
     ) PolynomialCurve(raiseTarget / (maxSupply^3/3)) {
         _raiseToken = raiseToken_;
         maxSupply = maxSupply_;
-        maxSupply = raiseTarget_;
+        raiseTarget = raiseTarget_;
         endsAt = endsAt_;
     }
 
@@ -32,6 +34,7 @@ contract FunFun is PolynomialCurve, Ownable {
     function buyFun(uint256 amount) public {
         require(address(funToken) != address(0), "FunToken not set");
         require(amount != 0, "Require non-zero amount");
+        require(block.timestamp <= endsAt, "Campaign finished");
 
         uint256 raiseTokenAmount = priceForSupply(funToken.totalSupply() + amount) - priceForSupply(funToken.totalSupply());
         ledger[msg.sender] += raiseTokenAmount;
@@ -46,7 +49,7 @@ contract FunFun is PolynomialCurve, Ownable {
     /// Sell all the fun tokens in case the campaign fail to meet the criteria
     function sellFun() public {
         require(address(funToken) != address(0), "FunToken not set");
-        require(block.timestamp >= endsAt, "Campaign not finished");
+        require(block.timestamp > endsAt, "Campaign not finished");
 
         uint256 addressAmount = funToken.balanceOf(msg.sender);
         require(addressAmount != 0, "No FunToken balance");
@@ -57,7 +60,7 @@ contract FunFun is PolynomialCurve, Ownable {
     function finishCampaign() private {
         require(funToken.totalSupply() == maxSupply, "Campaign not finished");
         funToken.unlock();
-
+        emit CampaignFinished();
         // TODO: Setup Uniswap pool
     }
 
