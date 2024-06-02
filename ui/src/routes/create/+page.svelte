@@ -55,7 +55,12 @@
     }
 
     async function makeTransaction() {
-        // TODO
+        const raisinToken = '0x702c959708bc19d7c506723A78077b102094CC65'
+        const funFactory = '0x5B79C3970886A1F71b82A80c75BE1dD8cDb7BD96'
+
+        const endsAt = Date.now() + (durationDays * 24 * 60 * 60)
+        createFun(name, symbol, image, raisinToken, endsAt, maxSupply, goalAmount)
+
     }
 </script>
 
