@@ -2,7 +2,7 @@
 	import Typography from "$lib/components/ui/typography.svelte"
     import Input from '$lib/components/ui/input.svelte'
 	import Button from "$lib/components/ui/button.svelte"
-    import { Image, Close, ArrowRight, ArrowLeft, Edit, Wallet, Checkmark } from 'carbon-icons-svelte'
+    import { Image, Close, ArrowRight, ArrowLeft, Edit, Wallet, Checkmark, Tsq } from 'carbon-icons-svelte'
 	import ResponsiveContainer from "$lib/components/responsive-container.svelte"
     import Select from '$lib/components/ui/select/select.svelte'
 	import Option from "$lib/components/ui/select/option.svelte"
@@ -10,17 +10,18 @@
     import { polynomial } from "$lib/utils/bonding-curve"
     import { ethers } from 'ethers'
     import { FunFactory__factory, type FunFactory } from '$lib/typechain'
+    import { goto } from '$app/navigation';
 
     let step = $state(4)
-    let name = $state('')
-    let symbol = $state('')
+    let name = $state('FUN')
+    let symbol = $state('Funraising')
     let image = $state('')
     let link = $state('')
-    let goalAmount = $state(0)
-    let maxSupply = $state(0)
+    let goalAmount = $state(10_000)
+    let maxSupply = $state(2000)
     let bondingCurve = $state('linear')
     let durationDays = $state(30)
-    let initialAmount = $state(0)
+    let initialAmount = $state(0.1)
 
     let degree = $derived(bondingCurve === 'linear' ? 2 : 3)
     let labels = $derived([...Array(11).keys()].map(value => value * goalAmount / 10))
@@ -64,7 +65,11 @@
         const signer = await provider.getSigner()
         
         const contract = new ethers.Contract(funFactory, FunFactory__factory.abi, signer) as unknown as FunFactory;
-        await contract.createFun(name, symbol, image, raisinToken, endsAt, maxSupply, goalAmount)
+        const tx = await contract.createFun(name, symbol, image, raisinToken, endsAt, maxSupply, goalAmount)
+        const result = await tx.wait()
+        const address = ''
+        console.debug({ address })
+        goto(`/token/${address}`)
     }
 </script>
 
