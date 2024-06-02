@@ -1,6 +1,6 @@
-require("@nomiclabs/hardhat-waffle")
-require("hardhat-deploy")
-require("hardhat-deploy-ethers")
+require("@nomiclabs/hardhat-waffle");
+require("@nomiclabs/hardhat-ethers");
+require("@typechain/hardhat");
 
 module.exports = {
   solidity: {
@@ -13,6 +13,10 @@ module.exports = {
       },
     },
   },
+  typechain: {
+    outDir: "typechain",
+    target: "ethers-v6",
+  },
   mocha: {
     bail: true,
     slow: 200,
@@ -24,11 +28,6 @@ module.exports = {
   networks: {
     hardhat: {
       tags: ["local"],
-    },
-    sepolia: {
-      url: process.env.RPC_URL || "http://localhost:8545",
-      accounts: [process.env.PRIV_KEY || "0x"],
-      tags: ["sepolia"],
     }
   },
 }

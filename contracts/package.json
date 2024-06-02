@@ -11,13 +11,18 @@
     "format": "prettier --write contracts/**/*.sol test/**/*.js",
     "format:check": "prettier --check contracts/**/*.sol test/**/*.js",
     "lint": "solhint contracts/**.sol",
-    "deploy:sepolia": "hardhat deploy --network sepolia"
+    "deploy:sepolia": "hardhat deploy --network sepolia",
+    "typechain": "hardhat typechain"
   },
   "devDependencies": {
+    "@ethersproject/abi": "^5.7.0",
+    "@ethersproject/providers": "^5.7.2",
     "@nomiclabs/hardhat-ethers": "^2.2.1",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "^4.8.0",
     "@stdlib/stats-binomial-test": "^0.0.7",
+    "@typechain/ethers-v6": "^0.5.1",
+    "@typechain/hardhat": "^9.1.0",
     "chai": "^4.3.7",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.7.2",
@@ -26,6 +31,7 @@
     "hardhat-deploy-ethers": "^0.3.0-beta.13",
     "prettier": "^2.8.2",
     "prettier-plugin-solidity": "^1.1.1",
-    "solhint": "^3.3.7"
+    "solhint": "^3.3.7",
+    "typechain": "^8.3.2"
   }
 }

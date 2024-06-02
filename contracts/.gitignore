@@ -3,5 +3,6 @@ cache
 artifacts
 deployment-localhost.json
 crytic-export
-deployments/localhost
+deployments
 .secret
+typechain

@@ -1,15 +1,10 @@
 const { ethers } = require("hardhat")
 const { expect } = require("chai")
-const {
-  snapshot,
-  revert,
-  currentTime,
-} = require("./evm")
+const { snapshot, revert, currentTime } = require("./evm")
 
 const ACCOUNT_STARTING_BALANCE = 1_000_000_000
 
 describe("FunFun", function () {
-
   let funFun, funToken
   let token
   let funder, investor, host1, host2, host3
@@ -19,12 +14,7 @@ describe("FunFun", function () {
 
   async function deployFunFun(endsAt, maxSupply, raiseTarget) {
     const FunFun = await ethers.getContractFactory("FunFun")
-    return await FunFun.deploy(
-      token.address,
-      endsAt,
-      maxSupply,
-      raiseTarget
-    )
+    return await FunFun.deploy(token.address, endsAt, maxSupply, raiseTarget)
   }
 
   async function deployFunToken(funFunAddress, maxSupply) {
@@ -34,7 +24,7 @@ describe("FunFun", function () {
       "FUN",
       "http://url",
       maxSupply,
-      funFunAddress,
+      funFunAddress
     )
   }
 
@@ -49,7 +39,7 @@ describe("FunFun", function () {
       await token.mint(account.address, ACCOUNT_STARTING_BALANCE)
     }
 
-    endsAt = await currentTime() + 3600
+    endsAt = (await currentTime()) + 3600
     funFun = await deployFunFun(endsAt, maxSupply, raiseTarget)
     funToken = await deployFunToken(funFun.address, maxSupply)
     await funFun.setFunToken(funToken.address)
@@ -69,13 +59,15 @@ describe("FunFun", function () {
       switchAccount(investor)
     })
 
-    it('should purchase fun', async () => {
+    it("should purchase fun", async () => {
       await token.approve(funFun.address, 100_000)
       const startingToken = await token.balanceOf(investor.address)
       expect(await funToken.balanceOf(investor.address)).to.equal(0)
       await funFun.buyFun(100_000)
       expect(await funToken.balanceOf(investor.address)).to.be.eq(100_000)
-      expect(startingToken - await token.balanceOf(investor.address)).to.be.greaterThan(0)
-    });
+      expect(
+        startingToken - (await token.balanceOf(investor.address))
+      ).to.be.greaterThan(0)
+    })
   })
 })
