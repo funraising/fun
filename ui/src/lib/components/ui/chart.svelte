@@ -26,7 +26,12 @@
 						},
 					},
 					responsive: false,
-				},
+					plugins: {
+						legend: {
+							display: false
+						},
+					}
+				}
 			})
 			chart.resize()
 		}
