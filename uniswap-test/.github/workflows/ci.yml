@@ -1,0 +1,24 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  formatting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: npm install
+      - run: npm run format:check
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      # workaround for https://github.com/NomicFoundation/hardhat/issues/3877
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.15
+      - run: npm install
+      - run: npm test
