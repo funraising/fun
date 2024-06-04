@@ -282,7 +282,8 @@
 form {
     display: flex;
     flex-direction: column;
-    width: 50vw;
+    max-width: 560px;
+    padding: 0 var(--padding);
 }
 .spacer {
     margin-bottom: var(--padding);
